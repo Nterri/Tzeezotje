@@ -1,0 +1,217 @@
+@import "C:/Users/egort/OneDrive/Desktop/MyProject/nullStyle.scss";
+
+$maxWidth: 1920;
+$containerOnlyValue: 1169;
+$container: 1169px;
+$burgerOn: 992px;
+$fontFamily1: Poppins;
+$colorWhite: #fff;
+$colorBlack: #000;
+$fontSize1: 16px;
+$background: #ffffff;
+$backgroundColor: $colorBlack;
+$burgerColor: $colorWhite;
+$backgroundNav: $colorBlack;
+
+//=================================================================================================================
+@mixin adaptiv-value($property, $startSize, $minSize, $type) {
+   $addSize: $startSize - $minSize;
+
+   @if $type==1 {
+      #{$property}: $startSize + px;
+
+      @media (max-width: #{$containerOnlyValue + px}) {
+         #{$property}: calc(#{$minSize + px} + #{$addSize} * ((100vw - 320px) / #{$containerOnlyValue - 320}));
+      }
+   }
+
+   @if $type==2 {
+      #{$property}: $startSize + px;
+
+      @media (min-width: #{$containerOnlyValue + px}) {
+         #{$property}: calc(#{$minSize + px} + #{$addSize} * ((100vw - 320px) / #{$maxWidth - 320}));
+      }
+   }
+
+   @if $type==3 {
+      #{$property}: calc(#{$minSize + px} + #{$addSize} * ((100vw - 320px) / #{$maxWidth - 320}));
+   }
+}
+
+@mixin font($font_name, $file_name, $weight, $style) {
+   @font-face {
+      font-family: $font_name;
+      font-display: swap;
+      src: url("../files/#{$file_name}.woff") format("woff"),
+      url("../files/#{$file_name}.woff2") format("woff2");
+      font-weight: #{$weight};
+      font-style: #{$style};
+   }
+}
+
+//=================================================================================================================
+.wrapper {
+   display: flex;
+   flex-direction: column;
+   min-height: 100%;
+   overflow: hidden;
+   font-style: normal;
+   font-family: $fontFamily1;
+   background: $background;
+   color: $colorBlack;
+
+   a {
+      color: inherit;
+   }
+}
+
+.container {
+   max-width: $container;
+   margin: 0 auto;
+   padding: 0px 15px;
+   -webkit-box-sizing: content-box;
+   box-sizing: content-box;
+}
+
+body {
+   &.lock {
+      overflow: hidden;
+   }
+}
+
+.main-button {
+   font-weight: 500;
+   @include adaptiv-value('font-size', 18, 16, 1);
+   line-height: 24px;
+   color: #FFFFFF;
+   background: transparent;
+   @include adaptiv-value('padding-left', 65, 15, 1);
+   @include adaptiv-value('padding-right', 65, 15, 1);
+   @include adaptiv-value('padding-top', 38, 10, 1);
+   @include adaptiv-value('padding-bottom', 38, 10, 1);
+   transition: all 0.3s;
+   background: #3A4574;
+
+   &:hover {
+      background: #FFFFFF;
+      color: #3A4574;
+   }
+}
+
+//=================================================================================================================
+.popup {
+   position: fixed;
+   width: 100%;
+   height: 100%;
+   background-color: rgba(0, 0, 0, 0.8);
+   top: 0;
+   left: 0;
+   opacity: 0;
+   z-index: 999;
+   visibility: hidden;
+   overflow-x: hidden;
+   overflow-y: auto;
+   transition: all 0.3s;
+
+   &.open {
+      opacity: 1;
+      visibility: visible;
+
+      .popup__content {
+         opacity: 1;
+         transform: translate(0, 0);
+      }
+   }
+
+   .popup__body {
+      min-height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 15px;
+   }
+
+   .popup__content {
+      background: #fff;
+      color: #000;
+      max-width: 800px;
+      width: 100%;
+      padding: 15px;
+      border-radius: 15px;
+      position: relative;
+      transition: all 0.3s;
+      opacity: 0;
+      transform: translate(0, -100%);
+   }
+
+   .popup__close {
+      display: block;
+      margin: 0 0 15px auto;
+      width: 30px;
+      height: 30px;
+      position: relative;
+
+      &::before,
+      &::after {
+         content: "";
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         width: 25px;
+         background: rgb(2, 2, 2);
+         height: 3px;
+         border-radius: 3px;
+      }
+
+      &::before {
+         transform: translate(-50%, -50%) rotate(45deg);
+      }
+
+      &::after {
+         transform: translate(-50%, -50%) rotate(-45deg);
+      }
+   }
+
+   .close-popup {
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+   }
+}
+
+//=================================================================================================================
+@font-face {
+   font-family: 'icomoon';
+   src: url('../files/fonts/icomoon.eot?ms788z');
+   src: url('../files/fonts/icomoon.eot?ms788z#iefix') format('embedded-opentype'),
+      url('../files/fonts/icomoon.ttf?ms788z') format('truetype'),
+      url('../files/fonts/icomoon.woff?ms788z') format('woff'),
+      url('../files/fonts/icomoon.svg?ms788z#icomoon') format('svg');
+   font-weight: normal;
+   font-style: normal;
+   font-display: block;
+}
+
+[class^="icon-"]::before,
+[class*=" icon-"]::before {
+   font-family: 'icomoon' !important;
+   speak: never;
+   font-style: normal;
+   font-weight: normal;
+   font-variant: normal;
+   text-transform: none;
+   line-height: 1;
+   -webkit-font-smoothing: antialiased;
+   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-arrow-left:before {
+   content: "\e900";
+}
+
+.icon-arrow-right:before {
+   content: "\e901";
+}
